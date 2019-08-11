@@ -1,21 +1,33 @@
 var express = require('express');
+var proxy = require('http-proxy-middleware');
 
-var server = express();
+var backendUri = process.env.BACKEND_URL || 'http://localhost:8888'
+var port = process.env.WEB_PORT || 80;
 
-var port = process.env.WEB_PORT || 8000;
+// proxy middleware options
+var proxy_options = {
+    target: backendUri,
+    pathRewrite: {
+      '/backend': '/' // remove base path
+    }
+  }
 
-server.use(express.static('assets'));
 
-server.get('/*', function (req, res, next) {
+var apiProxy = proxy(proxy_options);
+var app = express();
+
+var logger = (req, res, next) => {
     console.log(req.originalUrl);
     next();
-});
+}
 
-server.get('/articles/*', function (req, res, next) {
-    var article_list = [{1:1}, {2:2}, {3:3}];
-    res.send(article_list);
-});
+app.use('/backend/*', logger, apiProxy);
 
-server.listen(port, function () {
+app.get('/*', logger);
+
+app.use(express.static('webui/dist'));
+
+
+app.listen(port, function () {
     console.log('Web server listening on port ' + port);
-  });
+});
