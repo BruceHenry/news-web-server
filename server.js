@@ -25,7 +25,7 @@ app.use('/backend/*', logger, apiProxy);
 
 app.get('/*', logger);
 
-app.use(express.static('webui/dist'));
+app.use(express.static('webui/dist/webui'));
 
 
 app.listen(port, function () {
