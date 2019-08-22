@@ -19,6 +19,7 @@ export class ArticleService {
 
   private deleteArticleUrl = '/backend/article';
   private createArticleUrl = '/backend/article';
+  private getArticleUrl = '/backend/article';
 
   constructor(
     private http: HttpClient
@@ -49,6 +50,10 @@ export class ArticleService {
 
   createArticle(article:Article):Observable<string>  {
     return this.http.put<string>(this.createArticleUrl, article, this.httpOptions);
+  }
+
+  getArticle(path:String):Observable<Article> {
+    return this.http.get<Article>(this.getArticleUrl + '/' + path, this.httpOptions);
   }
 
 }

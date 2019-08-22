@@ -9,7 +9,7 @@ import { ArticleService } from '../../services/article.service';
 })
 export class ArticlesComponent implements OnInit {
   articleList: Article[];
-  @Input() newArticleName: String;
+  newArticleName: String;
 
 
   constructor(

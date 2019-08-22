@@ -21,11 +21,11 @@ var logger = (req, res, next) => {
     next();
 }
 
+app.use(express.static('webui/dist/webui'));
+
 app.use('/backend/*', logger, apiProxy);
 
 app.get('/*', logger);
-
-app.use(express.static('webui/dist/webui'));
 
 
 app.listen(port, function () {
