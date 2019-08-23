@@ -1,9 +1,19 @@
-<h2>Articles</h2>
-<ul>
+<!-- <ul>
     <li *ngFor="let article of articleList">
-        <a routerLink="/article/{{article.title + article.id}}">{{ article.title + article.id }}</a><button (click)="deleteArticle(article)">Delete</button>
+        <a routerLink="/article/{{article.title + article.id}}">{{ article.title + article.id }}</a>
+        <span>&nbsp;&nbsp;</span>
+        <a href="/backend/browse/articles/{{article.title + article.id}}/index.html">Preview</a>
+        <button (click)="deleteArticle(article)">Delete</button>
     </li>
-</ul>
+</ul> -->
+
+<div *ngFor="let article of articleList">
+        <h2>{{ article.title }}
+            <button (click)="editArticle(article)">Edit</button>
+            <button (click)="previewArticle(article)">Preview</button>
+            <button (click)="deleteArticle(article)">Delete</button>
+        </h2>
+</div>
 
 <input [(ngModel)]="newArticleName" placeholder="name" type="text"/>
 <button (click)="createArticle()">Create</button>

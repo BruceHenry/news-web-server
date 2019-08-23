@@ -1,4 +1,6 @@
 import { Component, OnInit, Input} from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Article } from '../../models/article';
 import { ArticleService } from '../../services/article.service';
 
@@ -8,12 +10,16 @@ import { ArticleService } from '../../services/article.service';
   styleUrls: ['./articles.component.sass']
 })
 export class ArticlesComponent implements OnInit {
+  ARTICLE_URL: string = "/article";
+  PREVIEW_URL: string = "/backend/browse/articles";
+  
   articleList: Article[];
   newArticleName: String;
 
 
   constructor(
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -34,5 +40,17 @@ export class ArticlesComponent implements OnInit {
     let article = new Article();
     article.title = this.newArticleName.toString();
     this.articleService.createArticle(article).subscribe(resp => {console.log(resp); this.getArticles();});
+  }
+
+  editArticle(article:Article) {
+    this.router.navigateByUrl(this.ARTICLE_URL + '/' + this.getArticlePath(article));
+  }
+
+  previewArticle(article:Article) {
+    window.location.href = this.PREVIEW_URL + '/' + this.getArticlePath(article);
+  }
+
+  getArticlePath(article:Article):string {
+    return article.title + article.id;
   }
 }
