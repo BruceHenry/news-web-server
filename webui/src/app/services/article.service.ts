@@ -56,4 +56,11 @@ export class ArticleService {
     return this.http.get<Article>(this.getArticleUrl + '/' + path, this.httpOptions);
   }
 
+  uploadMarkdownFile(article:Article, file:File) : Observable<string> {
+    const url = '/backend/file/' + article.title + article.id + '/markdown';
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    return this.http.post<string>(url, formData);//do not add Content-Type: multipart/form-data
+  }
+
 }

@@ -2,4 +2,24 @@
 <div *ngIf="article">
     <div><span>id: </span>{{article.id}}</div>
     <div><span>title: </span>{{article.title}}</div>
+
+    <hr/>
+    <div>
+        <label for="file">Choose Markdown File</label>
+        <input id="mdfile" type="file" (change)="handleMarkdownFileInput($event.target.files)">
+        <button (click)="uploadMarkdownFile()">Upload Markdown</button>
+    </div>
+    <hr/>
+
+    <button (click)="addFile()">Add File</button>
+    <button (click)="uploadFiles()">Upload File</button>
+    <div *ngFor="let uploadFile of uploadFiles; index as i">
+        <input type="file" (change)="handleFileInput($event.target.files, i)">
+    </div>
+    <hr/>
+
+    <iframe [src]="previewUrl">
+        <p>Your browser does not support iframes.</p>
+    </iframe>
 </div>
+
