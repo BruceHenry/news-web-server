@@ -2,22 +2,31 @@
 <div *ngIf="article">
     <div><span>id: </span>{{article.id}}</div>
     <div><span>title: </span>{{article.title}}</div>
-
     <hr/>
+
+
     <div>
-        <label for="file">Choose Markdown File</label>
-        <input id="mdfile" type="file" (change)="handleMarkdownFileInput($event.target.files)">
+        <p>Choose Markdown File</p>
+        <button (click)="markdownFileInput.value = ''; markdownFileInput.click()" [disabled]="markdownFile!==undefined && markdownFile!==null">Add Markdown</button>
+        <input id="mdfile" type="file" (change)="handleMarkdownFileInput($event.target.files)" [hidden]="true" #markdownFileInput>
         <button (click)="uploadMarkdownFile()">Upload Markdown</button>
+        <div *ngIf="markdownFile!==undefined && markdownFile!==null">
+            <span>{{markdownFile.name}}</span>
+            <button (click)="markdownFile=null">Remove</button>
+        </div>
+        
     </div>
     <hr/>
 
-    <button #upload (click)="file.value='';file.click()">Add File</button>
-    <input type="file" (change)="handleFileInput($event.target.files)" [hidden]="true" #file>
-    <button (click)="uploadFiles()">Upload File</button>
 
     <div>
+        <p>Choose Other Files</p>
+        <button (click)="otherFileInput.value = ''; otherFileInput.click()">Add File</button>
+        <button (click)="removeAllFiles()" [disabled]="otherFiles.length === 0">Clear</button>
+        <input type="file" (change)="handleFileInput($event.target.files)" [hidden]="true" #otherFileInput>
+        <button (click)="uploadFiles()" [disabled]="otherFiles.length === 0">Upload File</button>
         <ul>
-            <li *ngFor="let file of uploadFiles; index as i">
+            <li *ngFor="let file of otherFiles; index as i">
                 <span>{{file.name}}</span>
                 <button (click)="removeFile(i)">Remove</button>
             </li>

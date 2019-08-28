@@ -63,4 +63,13 @@ export class ArticleService {
     return this.http.post<string>(url, formData);//do not add Content-Type: multipart/form-data
   }
 
+  uploadFiles(article:Article, otherFiles:File[]) :Observable<string> {
+    const url = '/backend/file/' + article.title + article.id + '/files';
+    const formData: FormData = new FormData();
+    for (let file of otherFiles) {
+      formData.append('file', file);
+    }
+    return this.http.post<string>(url, formData);//do not add Content-Type: multipart/form-data
+  }
+
 }

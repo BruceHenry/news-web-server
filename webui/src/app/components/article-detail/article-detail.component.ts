@@ -18,7 +18,7 @@ export class ArticleDetailComponent implements OnInit {
   previewUrl: SafeResourceUrl;
 
   markdownFile: File = null;
-  uploadFiles: File[] = [];
+  otherFiles: File[] = [];
 
   constructor(
     public sanitizer:DomSanitizer,
@@ -49,10 +49,14 @@ export class ArticleDetailComponent implements OnInit {
   handleMarkdownFileInput(files: FileList) {
     const file = files[0]
     if (file !== undefined && file !== null){
-      this.markdownFile = file;
-    }
-    else {
-      alert("file is empty!");
+      let fileNameArray = file.name.split('.');
+      const extension = fileNameArray[fileNameArray.length - 1];
+      if (extension === 'md') {
+        this.markdownFile = file;
+      }
+      else {
+        alert("Must be a .md file");
+      }
     }
   }
   
@@ -61,24 +65,25 @@ export class ArticleDetailComponent implements OnInit {
     console.log(files)
     const file = files[0]
     if (file !== undefined && file !== null){
-      this.uploadFiles.push(file);
+      this.otherFiles.push(file);
     }
-    console.log(this.uploadFiles);
   }
 
   removeFile(i: number) {
-    this.uploadFiles.splice(i, 1);
+    this.otherFiles.splice(i, 1);
   }
 
   uploadMarkdownFile() {
-    this.articleService.uploadMarkdownFile(this.article, this.markdownFile).subscribe(resp => {console.log(resp);this.reloadIframe(this.article)});
+    this.articleService.uploadMarkdownFile(this.article, this.markdownFile)
+    .subscribe(resp => {console.log(resp);this.reloadIframe(this.article);this.markdownFile=null;});
   }
 
-  addFile() {
-    this.uploadFiles.push(null);
+  removeAllFiles() {
+    this.otherFiles = [];
   }
 
-  uploadFiIles() {
-
+  uploadFiles() {
+    this.articleService.uploadFiles(this.article, this.otherFiles)
+    .subscribe(resp => {console.log(resp);this.reloadIframe(this.article);this.otherFiles=[];})
   }
 }
