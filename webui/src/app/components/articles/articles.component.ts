@@ -47,7 +47,7 @@ export class ArticlesComponent implements OnInit {
   }
 
   previewArticle(article:Article) {
-    window.location.href = this.PREVIEW_URL + '/' + this.getArticlePath(article);
+    window.location.href = this.PREVIEW_URL + '/' + this.getArticlePath(article) + '/index.html';
   }
 
   getArticlePath(article:Article):string {
