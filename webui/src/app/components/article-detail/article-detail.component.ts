@@ -57,12 +57,17 @@ export class ArticleDetailComponent implements OnInit {
   }
   
   
-  handleFileInput(files: FileList, index: number) {
+  handleFileInput(files: FileList) {
+    console.log(files)
     const file = files[0]
     if (file !== undefined && file !== null){
-      this.uploadFiles[index] = file;
+      this.uploadFiles.push(file);
     }
     console.log(this.uploadFiles);
+  }
+
+  removeFile(i: number) {
+    this.uploadFiles.splice(i, 1);
   }
 
   uploadMarkdownFile() {
@@ -71,5 +76,9 @@ export class ArticleDetailComponent implements OnInit {
 
   addFile() {
     this.uploadFiles.push(null);
+  }
+
+  uploadFiIles() {
+
   }
 }

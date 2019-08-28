@@ -11,10 +11,17 @@
     </div>
     <hr/>
 
-    <button (click)="addFile()">Add File</button>
+    <button #upload (click)="file.value='';file.click()">Add File</button>
+    <input type="file" (change)="handleFileInput($event.target.files)" [hidden]="true" #file>
     <button (click)="uploadFiles()">Upload File</button>
-    <div *ngFor="let uploadFile of uploadFiles; index as i">
-        <input type="file" (change)="handleFileInput($event.target.files, i)">
+
+    <div>
+        <ul>
+            <li *ngFor="let file of uploadFiles; index as i">
+                <span>{{file.name}}</span>
+                <button (click)="removeFile(i)">Remove</button>
+            </li>
+        </ul>
     </div>
     <hr/>
 
